@@ -1,0 +1,3 @@
+rootProject.name = "ts3"
+include ':app'
+include ':lib_base'
