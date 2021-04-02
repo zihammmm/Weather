@@ -1,6 +1,8 @@
 package com.zihany.weather.data
 
 import androidx.annotation.DrawableRes
+import com.zihany.network.data.AllWeatherData
+import com.zihany.network.data.BaseWeatherData
 import com.zihany.weather.R
 
 data class Weather(
@@ -12,5 +14,7 @@ data class Weather(
     @DrawableRes val backgroundGif: Int = R.drawable.bg_topgif_2,
     val twentyFourHours: List<TwentyFourHour> = arrayListOf(),
     val weekWeathers: List<WeekWeather> = arrayListOf(),
-    val basicWeathers: List<BasicWeather> = arrayListOf()
+    val basicWeathers: List<BasicWeather> = arrayListOf(),
+    val baseWeatherData: BaseWeatherData,
+    val allWeatherData: AllWeatherData
 )

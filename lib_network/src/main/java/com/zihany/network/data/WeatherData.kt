@@ -1,22 +1,23 @@
-package com.zihany.weather.request.data
+package com.zihany.network.data
 
 /**
  * 高德地图返回的天气数据
  */
+
 data class BaseWeatherData(
     val status: Int,
     val count: Int,
-    val info: Int,
+    val info: String,
     val infocode: Int,
-    val lives: Lives,
+    val lives: List<Lives>
 )
 
 data class AllWeatherData(
     val status: Int,
     val count: Int,
-    val info: Int,
+    val info: String,
     val infocode: Int,
-    val forecast: Forecast
+    val forecasts: List<Forecast>
 )
 
 data class Lives(
@@ -46,7 +47,7 @@ data class Cast(
     val nightweather: String,
     val daytemp: Int,
     val nighttemp: Int,
-    val daydind: String,
+    val daywind: String,
     val nightwind: String,
     val daypower: String,
     val nightpower: String
