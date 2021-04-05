@@ -6,7 +6,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
@@ -24,9 +23,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.Glide
-import com.zihany.weather.data.*
+import com.zihany.weather.R
+import com.zihany.weather.data.BasicWeatherDetails
+import com.zihany.weather.data.location.LocationData
+import com.zihany.weather.data.standard.*
 import com.zihany.weather.utils.getDefaultDate
-import com.zihany.weather.utils.toWeek
 import dev.chrisbanes.accompanist.glide.GlideImage
 import dev.chrisbanes.accompanist.glide.LocalRequestManager
 
@@ -55,8 +56,30 @@ fun WeatherBackground(weather: StandardCurrentWeather) {
 
 @ExperimentalAnimationApi
 @Composable
-fun WeatherContent(currentWeather: StandardCurrentWeather, ForecastWeather: StandardForecastWeatherList) {
+fun WeatherContent(
+    currentWeather: StandardCurrentWeather,
+    ForecastWeather: StandardForecastWeatherList,
+    hourlyWeatherList: StandardHourlyWeatherList,
+    location: LocationData
+) {
     val scrollState = rememberScrollState()
+    Row(
+        modifier = Modifier.padding(top = 15.dp)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.add),
+            contentDescription = "添加新地点",
+            modifier = Modifier.padding(start = 15.dp)
+        )
+        Text(
+            text = location.location[0].name,
+            modifier = Modifier
+                .weight(1f)
+                .wrapContentWidth(align = Alignment.CenterHorizontally),
+            color = Color.White,
+            fontSize = 20.sp
+        )
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -64,18 +87,20 @@ fun WeatherContent(currentWeather: StandardCurrentWeather, ForecastWeather: Stan
             .verticalScroll(scrollState)
     ) {
         WeatherBasic(weather = currentWeather, scrollState = scrollState)
+        WeatherDetails(weather = hourlyWeatherList)
         WeatherWeek(weather = ForecastWeather)
         WeatherOther(weather = currentWeather)
     }
 }
 
-
 @Composable
-fun WeatherDetails(weather: Weather) {
-    val twentyFourHours = weather.twentyFourHours
+fun WeatherDetails(weather: StandardHourlyWeatherList) {
+    val twentyFourHours = weather.hourlyWeatherList
     LazyRow(modifier = Modifier.fillMaxWidth()) {
-        items(twentyFourHours) { twentyFourHour ->
-            WeatherHour(twentyFourHour)
+        for (hourlyWeather in twentyFourHours) {
+            item {
+                WeatherHour(twentyFourHour = hourlyWeather)
+            }
         }
     }
 }
@@ -85,7 +110,7 @@ fun WeatherWeek(weather: StandardForecastWeatherList) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 10.dp)
+            .padding(top = 25.dp)
             .padding(horizontal = 10.dp)
     ) {
         for (forcast in weather.allWeatherData) {
@@ -102,7 +127,7 @@ fun WeatherWeekDetails(weekWeather: StandardForecastWeather) {
             .padding(top = 5.dp)
     ) {
         Text(
-            text = weekWeather.week.toWeek(),
+            text = weekWeather.week,
             modifier = Modifier
                 .wrapContentWidth(Alignment.Start)
                 .weight(1f),
@@ -112,17 +137,25 @@ fun WeatherWeekDetails(weekWeather: StandardForecastWeather) {
             painter = painterResource(id = weekWeather.icon),
             contentDescription = weekWeather.dayWeather,
             modifier = Modifier
-                .size(25.dp)
-                .wrapContentWidth(Alignment.CenterHorizontally)
+                .size(35.dp)
+                .wrapContentSize()
                 .weight(1f)
         )
         Text(
             text = "${weekWeather.dayTemp}°",
             modifier = Modifier
-                .wrapContentWidth(Alignment.End)
+                .padding(start = 25.dp)
                 .weight(1f),
             color = Color.White,
             fontSize = 15.sp
+        )
+        Text(
+            text = "${weekWeather.nightTemp}°",
+            modifier = Modifier
+                .wrapContentWidth(Alignment.End)
+                .weight(1f),
+            color = Color.LightGray,
+            fontSize = 15.sp,
         )
     }
 }
@@ -142,7 +175,7 @@ fun WeatherOther(weather: StandardCurrentWeather) {
 }
 
 @Composable
-fun WeatherOtherDetails(basiceather: BasicWeather) {
+fun WeatherOtherDetails(basiceather: BasicWeatherDetails) {
     Column(
         modifier = Modifier.padding(bottom = 5.dp)
     ) {
@@ -162,7 +195,7 @@ fun WeatherOtherDetails(basiceather: BasicWeather) {
 }
 
 @Composable
-fun WeatherHour(twentyFourHour: TwentyFourHour) {
+fun WeatherHour(twentyFourHour: StandardHourlyWeather) {
     val modifier = Modifier.padding(top = 9.dp)
     Column(
         modifier = Modifier.width(50.dp),
@@ -196,26 +229,28 @@ fun WeatherBasic(weather: StandardCurrentWeather, scrollState: ScrollState) {
     val modifier = Modifier
         .fillMaxWidth()
         .wrapContentWidth(Alignment.CenterHorizontally)
+        .wrapContentSize(Alignment.Center)
         .graphicsLayer { translationY = offset.toFloat() }
     val context = LocalContext.current
 
-    Text(
-        text = weather.city,
-        fontSize = 20.sp,
-        color = Color.White,
-        modifier = modifier.padding(top = 100.dp, bottom = 5.dp)
-    )
     AnimatedVisibility(visible = fontSize == 75f.sp) {
         Text(
             text = "${weather.currentTemperature}°",
             fontSize = fontSize,
             color = Color.White,
-            modifier = modifier.padding(top = 2.5.dp)
+            modifier = modifier.padding(top = 100.dp)
         )
     }
     Text(
+        text = weather.weather,
+        fontSize = 20.sp,
+        color = Color.White,
+        modifier = modifier.padding(top = 2.5.dp)
+    )
+
+    Text(
         text = context.getDefaultDate(System.currentTimeMillis()),
-        modifier = modifier.padding(top = 45.dp, start = 10.dp),
+        modifier = modifier,
         fontSize = 16.sp,
         color = Color.White
     )

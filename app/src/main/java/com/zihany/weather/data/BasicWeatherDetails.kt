@@ -1,6 +1,6 @@
 package com.zihany.weather.data
 
-data class BasicWeather(
+data class BasicWeatherDetails(
     val name: String = "nothing",
     val value: String = ""
 )

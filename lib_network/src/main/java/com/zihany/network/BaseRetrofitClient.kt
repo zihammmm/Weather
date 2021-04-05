@@ -7,12 +7,15 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-object BaseRetrofitClient {
-    const val key = "d600314655ba922e4b5389bacaad0ddf"
-    private const val baseUrl = "https://restapi.amap.com/"
-
-    const val FAIL = 0
-    const val SUCCESS = 1
+/**
+ * 基础retrofit客户端
+ * 该类保持不变
+ */
+class BaseRetrofitClient {
+    companion object {
+        const val FAIL = 0
+        const val SUCCESS = 1
+    }
 
     private val gson = Gson().newBuilder()
         .setLenient()
@@ -36,16 +39,8 @@ object BaseRetrofitClient {
         }
         .addInterceptor(httpLoggingInterceptor)
         .build()
-
-    private val instance = Retrofit.Builder()
-        .baseUrl(baseUrl)
+    
+    val baseBuilder: Retrofit.Builder = Retrofit.Builder()
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create(gson))
-        .build()
-
-    val weatherClient: ApiService by lazy {
-        instance.create(ApiService::class.java)
-    }
-
-
 }

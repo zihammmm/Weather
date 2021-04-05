@@ -2,212 +2,68 @@ package com.zihany.weather.utils
 
 import com.zihany.weather.R
 
-object WeatherType {
-
-    /**
-     * error
-     */
-    const val NA = 99
-
-    /**
-     * 晴天
-     */
-    const val SUNNY = 0
-
-    /**
-     * 多云
-     */
-    const val CLOUDY = 1
-
-    /**
-     * 阴沉
-     */
-    const val OVERCAST = 2
-
-    /**
-     * 阵雨
-     */
-    const val SHOWER = 3
-
-    /**
-     * 雷阵雨
-     */
-    const val THUNDER_SHOWER = 4
-
-    /**
-     * 冰雹雷雨
-     */
-    const val THUNDER_SHOWER_WITH_HAIL = 5
-
-    /**
-     * 雨雪
-     */
-    const val RAIN_SNOW = 6
-
-    /**
-     * 小雨
-     */
-    const val SMALL_RAIN = 7
-
-    /**
-     * 中雨
-     */
-    const val MID_RAIN = 8
-
-    /**
-     * 大雨
-     */
-    const val BIG_RAIN = 9
-
-    /**
-     * 暴雨
-     */
-    const val RAINSTORM = 10
-
-    /**
-     * 大暴雨
-     */
-    const val DOWNPOUR = 11
-
-    /**
-     * 雨
-     */
-    const val TORREN_RAIN = 12
-
-    /**
-     * 雪乱
-     */
-    const val SNOW_FLURRY = 13
-
-    /**
-     * 小雪
-     */
-    const val SMALL_SNOW = 14
-
-    /**
-     * 中雪
-     */
-    const val MID_SNOW = 15
-
-    /**
-     * 大雪
-     */
-    const val BIG_SNOW = 16
-
-    /**
-     * 暴风雪
-     */
-    const val SNOWSTORM = 17
-
-    /**
-     * 有雾
-     */
-    const val FOGGY = 18
-
-    /**
-     * 冰雨
-     */
-    const val ICE_RAIN = 19
-
-    /**
-     * 沙暴
-     */
-    const val SANDSTORM = 20
-
-    /**
-     * 小到中雨
-     */
-    const val SMALL_TO_MIDRAIN = 21
-
-    /**
-     * 中间大雨
-     */
-    const val MID_TO_BIGRAIN = 22
-
-    /**
-     * 大到暴风雨
-     */
-    const val BIG_TO_STORMRAIN = 23
-
-    /**
-     * 从暴风雨到暴风雨
-     */
-    const val STORM_TO_HEAVY_STORM = 24
-
-    /**
-     * 重度暴风雨
-     */
-    const val HEAVY_TO_SEVERE_STORM = 25
-
-    /**
-     * 轻度下雪
-     */
-    const val LIGHT_TO_MODERATE_SNOW = 26
-
-    /**
-     * 中度沉重的雪
-     */
-    const val MODERATE_TO_HEAVY_SNOW = 27
-
-    /**
-     * 暴风雪
-     */
-    const val HEAVY_SNOW_TO_SNOWSTORM = 28
-
-    /**
-     * 雾霾
-     */
-    const val DUST = 29
-
-    /**
-     * ��ɳ
-     */
-    const val JANSA = 30
-
-    /**
-     * 强暴风雨
-     */
-    const val STRONG_SANDSTORM = 31
-
-    /**
-     * 结冰
-     */
-    // const val ICE = 32
-
-    /**
-     * 阴霾
-     */
-    const val HAZE = 53
-}
-
-fun getWeatherIcon(weatherId: Int): Int {
-    return when (weatherId) {
-        WeatherType.SUNNY -> R.drawable.n_weather_icon_sunny
-        WeatherType.CLOUDY -> R.drawable.n_weather_icon_cloud
-        WeatherType.OVERCAST -> R.drawable.n_weather_icon_overcast
-        WeatherType.SHOWER -> R.drawable.n_weather_icon_shower
-        WeatherType.THUNDER_SHOWER -> R.drawable.n_weather_icon_thunder_rain
-        WeatherType.THUNDER_SHOWER_WITH_HAIL -> R.drawable.n_weather_icon_rain_ice
-        WeatherType.RAIN_SNOW -> R.drawable.n_weather_icon_rain_snow
-        WeatherType.SMALL_RAIN, WeatherType.SMALL_TO_MIDRAIN -> R.drawable.n_weather_icon_small_rain
-        WeatherType.MID_RAIN, WeatherType.MID_TO_BIGRAIN -> R.drawable.n_weather_icon_middle_rain
-        WeatherType.BIG_RAIN, WeatherType.BIG_TO_STORMRAIN -> R.drawable.n_weather_icon_big_rain
-        WeatherType.RAINSTORM, WeatherType.DOWNPOUR, WeatherType.TORREN_RAIN, WeatherType.STORM_TO_HEAVY_STORM,
-        WeatherType.HEAVY_TO_SEVERE_STORM -> R.drawable.n_weather_icon_storm
-        WeatherType.SNOW_FLURRY -> R.drawable.n_weather_icon_flurry
-        WeatherType.SMALL_SNOW, WeatherType.LIGHT_TO_MODERATE_SNOW -> R.drawable.n_weather_icon_light_snow
-        WeatherType.MID_SNOW, WeatherType.MODERATE_TO_HEAVY_SNOW -> R.drawable.n_weather_icon_moderate_snow
-        WeatherType.BIG_SNOW, WeatherType.HEAVY_SNOW_TO_SNOWSTORM -> R.drawable.n_weather_icon_heavy_snow
-        WeatherType.SNOWSTORM -> R.drawable.n_weather_icon_snow_storm
-        WeatherType.FOGGY -> R.drawable.n_weather_icon_fog
-        WeatherType.ICE_RAIN -> R.drawable.n_weather_icon_rain_ice
-        WeatherType.SANDSTORM -> R.drawable.n_weather_icon_sand_storm
-        WeatherType.DUST -> R.drawable.n_weather_icon_dust
-        WeatherType.JANSA -> R.drawable.n_weather_icon_sand
-        WeatherType.STRONG_SANDSTORM -> R.drawable.n_weather_icon_sand_storm
-        WeatherType.HAZE -> R.drawable.n_weather_icon_haze
-        WeatherType.NA -> R.drawable.n_weather_icon_na
-        else -> R.drawable.n_weather_icon_na
+fun Int.getQWeatherIcon(): Int {
+    return when (this) {
+        100 -> R.drawable.sunny
+        101 -> R.drawable.cloudy
+        102 -> R.drawable.few_clouds
+        103 -> R.drawable.partly_cloudy
+        104 -> R.drawable.overcast
+        150 -> R.drawable.clear
+        153 -> R.drawable.partly_cloudy_night
+        154 -> R.drawable.overcast
+        300 -> R.drawable.shower_rain
+        301 -> R.drawable.heavy_shower_rain
+        302 -> R.drawable.thundershower
+        303 -> R.drawable.heavy_thunderstorm
+        304 -> R.drawable.thundershower_with_hail
+        305 -> R.drawable.light_rain
+        306 -> R.drawable.moderate_rain
+        307 -> R.drawable.heavy_rain
+        308 -> R.drawable.extreme_rain
+        309 -> R.drawable.drizzle_rain
+        310 -> R.drawable.storm
+        311 -> R.drawable.heavy_storm
+        312 -> R.drawable.severe_storm
+        313 -> R.drawable.freezing_rain
+        314 -> R.drawable.light_to_moderate_rain
+        315 -> R.drawable.moderate_to_heavy_rain
+        316 -> R.drawable.heavy_rain_to_storm
+        317 -> R.drawable.storm_to_heavy_storm
+        318 -> R.drawable.heavy_to_severe_storm
+        399 -> R.drawable.rain
+        350 -> R.drawable.shower_rain_night
+        351 -> R.drawable.heavy_shower_rain_night
+        400 -> R.drawable.light_snow
+        401 -> R.drawable.moderate_snow
+        402 ->R.drawable.heavy_snow
+        403->R.drawable.snowstorm
+        404->R.drawable.sleet
+        405->R.drawable.rain_and_snow
+        406->R.drawable.shower_snow
+        407->R.drawable.snow_flurry
+        408->R.drawable.light_to_moderate_snow
+        409->R.drawable.moderate_to_heavy_snow
+        410->R.drawable.heavy_snow_to_snowstorm
+        499->R.drawable.snow
+        456->R.drawable.shower_snow_night
+        457->R.drawable.snow_flurry_night
+        500->R.drawable.mist
+        501->R.drawable.foggy
+        502->R.drawable.haze
+        503->R.drawable.sand
+        504->R.drawable.dust
+        507->R.drawable.duststorm
+        508->R.drawable.sandstorm
+        509->R.drawable.dense_fog
+        510->R.drawable.strong_fog
+        511->R.drawable.moderate_haze
+        512->R.drawable.heavy_haze
+        513->R.drawable.severe_haze
+        514->R.drawable.heavy_fog
+        515->R.drawable.extra_heavy_fog
+        900->R.drawable.hot
+        901->R.drawable.cold
+        else -> R.drawable.unknown
     }
-
 }

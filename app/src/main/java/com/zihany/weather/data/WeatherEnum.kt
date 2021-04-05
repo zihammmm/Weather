@@ -12,21 +12,21 @@ enum class WeatherEnum(
 ) {
     SUNNY(
         R.string.weather_sunny,
-        R.drawable.n_weather_icon_sunny,
+        R.drawable.sunny,
         R.drawable.home_bg_1,
         R.drawable.bg_topgif_10
     ),
 
     CLOUDY(
         R.string.weather_cloudy,
-        R.drawable.n_weather_icon_cloud,
+        R.drawable.cloudy,
         R.drawable.home_bg_4,
         R.drawable.bg_topgif_10
     ),
 
     OVERCAST(
         R.string.weather_overcast,
-        R.drawable.n_weather_icon_overcast,
+        R.drawable.overcast,
         R.drawable.home_bg_6,
         R.drawable.bg_topgif_10
     ),

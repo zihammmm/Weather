@@ -1,0 +1,20 @@
+package com.zihany.weather.request
+
+import com.zihany.network.BaseRetrofitClient
+import retrofit2.Retrofit
+
+object WeatherRetrofitClient {
+    private const val qWeatherUrl = "https://devapi.qweather.com/v7/"
+    private val baseRetrofitClient = BaseRetrofitClient()
+
+    private val weatherInstance: Retrofit by lazy {
+        baseRetrofitClient.baseBuilder
+            .baseUrl(qWeatherUrl)
+            .build()
+    }
+
+    val weatherClient: QWeatherApi by lazy {
+        weatherInstance.create(QWeatherApi::class.java)
+    }
+}
+

@@ -1,30 +1,18 @@
-package com.zihany.weather.data
+package com.zihany.weather.data.standard
 
 import androidx.annotation.DrawableRes
 import com.zihany.weather.R
-
-enum class WindDirection(val zhName: String) {
-    NORTH("北"),
-    SOUTH("南"),
-    WEST("西"),
-    EAST("东"),
-    NORTHEAST("东北"),
-    NORTHWEST("西北"),
-    SOUTHEAST("东南"),
-    SOUTHWEST("西南"),
-    NODIRECTION("无风向"),
-    UNKNOWN("旋转不定")
-
-}
+import com.zihany.weather.data.BasicWeatherDetails
 
 /**
  * 标准实况天气数据
  */
 data class StandardCurrentWeather(
     val city: String = "北京",
+    val updateTime: String = "yyyy-mm-dd",
     val weather: String = "晴",
     val currentTemperature: Int = 0,
-    val weatherDetails: List<BasicWeather> = arrayListOf(BasicWeather()),
+    val weatherDetails: List<BasicWeatherDetails> = arrayListOf(BasicWeatherDetails()),
     @DrawableRes val background: Int = R.drawable.home_bg_1,
     @DrawableRes val backgroundGif: Int = R.drawable.bg_topgif_2,
 )
@@ -53,4 +41,13 @@ data class StandardForecastWeather(
     @DrawableRes val icon: Int = R.drawable.n_weather_icon_sunny,
 )
 
+data class StandardHourlyWeatherList(
+    val hourlyWeatherList: List<StandardHourlyWeather> = arrayListOf()
+)
+
+data class StandardHourlyWeather(
+    val time: String = "",
+    @DrawableRes val icon: Int = R.drawable.sunny,
+    val temperature: String = "xxx"
+)
 
