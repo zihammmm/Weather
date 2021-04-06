@@ -35,12 +35,12 @@ fun RTWeatherData.toStandardData(city: String): StandardCurrentWeather {
     }
 }
 
-fun DailyForecastData.toStandardData(): StandardForecastWeatherList {
-    val list: MutableList<StandardForecastWeather> = arrayListOf()
+fun DailyForecastData.toStandardData(): StandardDailyWeatherList {
+    val list: MutableList<StandardDailyWeather> = arrayListOf()
     if (code == QWeatherApi.responseSuccess) {
         for (d in daily) {
             list.add(
-                StandardForecastWeather(
+                StandardDailyWeather(
                     date = d.fxDate,
                     week = date2Week(d.fxDate),
                     icon = d.iconDay.getQWeatherIcon(),
@@ -57,7 +57,7 @@ fun DailyForecastData.toStandardData(): StandardForecastWeatherList {
         }
     }
 
-    return StandardForecastWeatherList(allWeatherData = list)
+    return StandardDailyWeatherList(allWeatherData = list)
 }
 
 fun HourlyForecastData.toStandardData(): StandardHourlyWeatherList {

@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.Glide
 import com.zihany.weather.R
-import com.zihany.weather.data.BasicWeatherDetails
+import com.zihany.weather.data.standard.BasicWeatherDetails
 import com.zihany.weather.data.location.LocationData
 import com.zihany.weather.data.standard.*
 import com.zihany.weather.utils.getDefaultDate
@@ -58,7 +58,7 @@ fun WeatherBackground(weather: StandardCurrentWeather) {
 @Composable
 fun WeatherContent(
     currentWeather: StandardCurrentWeather,
-    ForecastWeather: StandardForecastWeatherList,
+    dailyWeather: StandardDailyWeatherList,
     hourlyWeatherList: StandardHourlyWeatherList,
     location: LocationData
 ) {
@@ -88,7 +88,7 @@ fun WeatherContent(
     ) {
         WeatherBasic(weather = currentWeather, scrollState = scrollState)
         WeatherDetails(weather = hourlyWeatherList)
-        WeatherWeek(weather = ForecastWeather)
+        WeatherWeek(weather = dailyWeather)
         WeatherOther(weather = currentWeather)
     }
 }
@@ -106,7 +106,7 @@ fun WeatherDetails(weather: StandardHourlyWeatherList) {
 }
 
 @Composable
-fun WeatherWeek(weather: StandardForecastWeatherList) {
+fun WeatherWeek(weather: StandardDailyWeatherList) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -120,7 +120,7 @@ fun WeatherWeek(weather: StandardForecastWeatherList) {
 }
 
 @Composable
-fun WeatherWeekDetails(weekWeather: StandardForecastWeather) {
+fun WeatherWeekDetails(weekWeather: StandardDailyWeather) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

@@ -19,26 +19,26 @@ interface QWeatherApi {
      * 获取实时天气
      */
     @GET("weather/now")
-    fun getNowWeather(
+    suspend fun getNowWeather(
         @Query("location") location: String,
         @Query("key") key: String = qWeatherKey
-    ): Call<RTWeatherData>
+    ): RTWeatherData
 
     /**
      * 获取未来24小时天气预报
      */
     @GET("weather/24h")
-    fun get24hForecastWeather(
+    suspend fun get24hForecastWeather(
         @Query("location") location: String,
         @Query("key") key: String = qWeatherKey
-    ): Call<HourlyForecastData>
+    ): HourlyForecastData
 
     /**
      * 获取未来7天天气预报
      */
     @GET("weather/3d")
-    fun get7dForecastWeather(
+    suspend fun get7dForecastWeather(
         @Query("location") location: String,
         @Query("key") key: String = qWeatherKey
-    ): Call<DailyForecastData>
+    ): DailyForecastData
 }

@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import com.zihany.weather.data.location.LocationData
 import com.zihany.weather.data.standard.StandardCurrentWeather
-import com.zihany.weather.data.standard.StandardForecastWeatherList
+import com.zihany.weather.data.standard.StandardDailyWeatherList
 import com.zihany.weather.data.standard.StandardHourlyWeatherList
 import com.zihany.weather.mvvm.view.WeatherBackground
 import com.zihany.weather.mvvm.view.WeatherContent
@@ -104,8 +104,8 @@ class MainActivity : ComponentActivity() {
         val baseWeather: StandardCurrentWeather by viewModel.baseWeatherLiveData.observeAsState(
             StandardCurrentWeather()
         )
-        val forecastWeatherList: StandardForecastWeatherList by viewModel.allWeatherLiveData.observeAsState(
-            StandardForecastWeatherList()
+        val dailyWeatherList: StandardDailyWeatherList by viewModel.allWeatherLiveData.observeAsState(
+            StandardDailyWeatherList()
         )
         val hourlyWeatherList: StandardHourlyWeatherList by viewModel.hourlyWeatherLiveData.observeAsState(
             StandardHourlyWeatherList()
@@ -115,12 +115,12 @@ class MainActivity : ComponentActivity() {
         )
         Log.d(TAG, "now: $baseWeather")
         Log.d(TAG, "hourly: $hourlyWeatherList")
-        Log.d(TAG, "daily: $forecastWeatherList")
+        Log.d(TAG, "daily: $dailyWeatherList")
         Surface(color = MaterialTheme.colors.background) {
             WeatherBackground(baseWeather)
             WeatherContent(
                 baseWeather,
-                forecastWeatherList,
+                dailyWeatherList,
                 hourlyWeatherList,
                 cityInfo
             )

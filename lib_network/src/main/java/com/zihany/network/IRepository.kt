@@ -23,7 +23,7 @@ open class IRepository {
         response: Response<T>,
         successBlock: (suspend CoroutineScope.() -> Unit)? = null,
         errorBlock: (suspend CoroutineScope.() -> Unit)? = null
-    ):RequestResult<T> {
+    ): RequestResult<T> {
         return coroutineScope {
             if (response.errorCode == BaseRetrofitClient.FAIL) {
                 errorBlock?.let { it() }

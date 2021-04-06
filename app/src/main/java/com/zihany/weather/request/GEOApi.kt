@@ -10,8 +10,8 @@ interface GEOApi {
      * 根据LocationID查询城市信息
      */
     @GET("city/lookup")
-    fun getCityInfo(
+    suspend fun getCityInfo(
         @Query("location") location: String,
         @Query("key") key: String = qWeatherKey
-    ): Call<LocationData>
+    ): LocationData
 }

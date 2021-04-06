@@ -2,7 +2,6 @@ package com.zihany.weather.data.standard
 
 import androidx.annotation.DrawableRes
 import com.zihany.weather.R
-import com.zihany.weather.data.BasicWeatherDetails
 
 /**
  * 标准实况天气数据
@@ -20,14 +19,14 @@ data class StandardCurrentWeather(
 /**
  * 一周标准预测天气数据
  */
-data class StandardForecastWeatherList(
-    val allWeatherData: List<StandardForecastWeather> = arrayListOf(StandardForecastWeather())
+data class StandardDailyWeatherList(
+    val allWeatherData: List<StandardDailyWeather> = arrayListOf(StandardDailyWeather())
 )
 
 /**
  * 单日标准预测天气数据
  */
-data class StandardForecastWeather(
+data class StandardDailyWeather(
     val date: String = "yyyy-mm-dd",
     val week: String = "星期一",
     val dayWeather: String = "晴",
