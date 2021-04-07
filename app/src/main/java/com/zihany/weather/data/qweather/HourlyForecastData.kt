@@ -19,7 +19,7 @@ data class Hourly(
     val text: String,
     val wind360: Int,
     val windDir: String,
-    val windScale: Int,
+    val windScale: String,
     val windSpeed: Int,
     val humidity: Int,
     val pop: Int,
