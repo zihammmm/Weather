@@ -36,7 +36,7 @@ interface QWeatherApi {
     /**
      * 获取未来7天天气预报
      */
-    @GET("weather/3d")
+    @GET("weather/7d")
     suspend fun get7dForecastWeather(
         @Query("location") location: String,
         @Query("key") key: String = qWeatherKey
