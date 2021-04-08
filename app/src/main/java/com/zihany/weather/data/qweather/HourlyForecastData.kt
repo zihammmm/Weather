@@ -1,16 +1,27 @@
 package com.zihany.weather.data.qweather
 
+import com.zihany.weather.data.IData
+import com.zihany.weather.request.WeatherRetrofitClient
+
 /**
  * 逐小时天气预报数据
  * @link{https://dev.qweather.com/docs/api/weather/weather-hourly-forecast/}
  */
 data class HourlyForecastData(
-    val code: Int,
-    val updateTime: String,
-    val fxLink: String,
-    val hourly: List<Hourly>,
-    val refer: Refer
-)
+    val code: Int = 200,
+    val updateTime: String = "2021-02-16T13:35+08:00",
+    val fxLink: String = "http://hfx.link/2ax1",
+    val hourly: List<Hourly> = arrayListOf(),
+    val refer: Refer = Refer()
+): IData {
+    override fun isSuccessful(): Boolean {
+        return code == WeatherRetrofitClient.QWEATHER_CODE_SUCCESS
+    }
+
+    override fun getStatus(): Int {
+        return code
+    }
+}
 
 data class Hourly(
     val fxTime: String,

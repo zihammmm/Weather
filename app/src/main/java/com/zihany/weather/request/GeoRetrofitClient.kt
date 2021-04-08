@@ -4,6 +4,7 @@ import com.zihany.network.BaseRetrofitClient
 import retrofit2.Retrofit
 
 object GeoRetrofitClient {
+    const val GEO_CODE_SUCCESS = 200
     private const val geoUrl = "https://geoapi.qweather.com/v2/"
     private val baseRetrofitClient = BaseRetrofitClient()
 

@@ -1,12 +1,22 @@
 package com.zihany.weather.data.location
 
+import com.zihany.weather.data.IData
 import com.zihany.weather.data.qweather.Refer
+import com.zihany.weather.request.GeoRetrofitClient
 
 data class LocationData(
     val code: Int = 200,
     val location: List<Location> = arrayListOf(Location()),
     val refer: Refer = Refer()
-)
+) : IData {
+    override fun isSuccessful(): Boolean {
+        return code == GeoRetrofitClient.GEO_CODE_SUCCESS
+    }
+
+    override fun getStatus(): Int {
+        return code
+    }
+}
 
 data class Location(
     val name: String = "未知",

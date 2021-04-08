@@ -1,26 +1,18 @@
 package com.zihany.weather.mvvm.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zihany.network.data.RequestResult
 import com.zihany.weather.data.location.LocationData
-import com.zihany.weather.data.qweather.DailyForecastData
-import com.zihany.weather.data.qweather.HourlyForecastData
-import com.zihany.weather.data.qweather.RTWeatherData
 import com.zihany.weather.data.standard.StandardCurrentWeather
 import com.zihany.weather.data.standard.StandardDailyWeatherList
 import com.zihany.weather.data.standard.StandardHourlyWeatherList
-import com.zihany.weather.data.toStandardData
-import com.zihany.weather.request.GeoRetrofitClient
-import com.zihany.weather.request.WeatherRetrofitClient
+import com.zihany.weather.mvvm.model.GEOLocationRepository
+import com.zihany.weather.mvvm.model.QWeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class WeatherPageViewModel : ViewModel() {
     companion object {
@@ -30,11 +22,14 @@ class WeatherPageViewModel : ViewModel() {
 
     val location: MutableLiveData<String> = MutableLiveData(DEFAULT_LOCATION)
 
+    private val weatherModel = QWeatherRepository()
+    private val locationModel = GEOLocationRepository()
+
     private val _baseWeatherLiveData = MutableLiveData(StandardCurrentWeather())
     val baseWeatherLiveData: LiveData<StandardCurrentWeather>
         get() = _baseWeatherLiveData
 
-    private val _hourlyWeatherLiveData = MutableLiveData<StandardHourlyWeatherList>()
+    private val _hourlyWeatherLiveData = MutableLiveData(StandardHourlyWeatherList())
     val hourlyWeatherLiveData: LiveData<StandardHourlyWeatherList>
         get() = _hourlyWeatherLiveData
 
@@ -46,38 +41,54 @@ class WeatherPageViewModel : ViewModel() {
     val cityInfo: LiveData<LocationData>
         get() = _cityInfo
 
+    private val _errorMsg = MutableLiveData<RequestResult.Error>()
+    val errorMsg: LiveData<RequestResult.Error>
+        get() = _errorMsg
+
     fun getNowWeather(location: String) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val response = WeatherRetrofitClient.weatherClient.getNowWeather(location)
-                _baseWeatherLiveData.postValue(response.toStandardData(location))
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = weatherModel.getNowWeather(location)
+            if (response is RequestResult.Success) {
+                _baseWeatherLiveData.postValue(response.data)
+            } else {
+                _errorMsg.postValue(response as RequestResult.Error)
             }
         }
     }
 
     fun getHourlyWeather(location: String) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val response = WeatherRetrofitClient.weatherClient.get24hForecastWeather(location)
-                _hourlyWeatherLiveData.postValue(response.toStandardData())
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = weatherModel.getHourlyWeather(location)
+            if (response is RequestResult.Success) {
+                _hourlyWeatherLiveData.postValue(response.data)
+            } else {
+                _errorMsg.postValue(response as RequestResult.Error)
             }
         }
     }
 
     fun getDailyForecastData(location: String) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val response = WeatherRetrofitClient.weatherClient.get7dForecastWeather(location)
-                _allWeatherLiveData.postValue(response.toStandardData())
+        viewModelScope.launch(Dispatchers.IO) {
+
+            val response = weatherModel.getDailyWeather(location)
+            if (response is RequestResult.Success) {
+                _allWeatherLiveData.postValue(response.data)
+            } else {
+                _errorMsg.postValue(response as RequestResult.Error)
             }
+
         }
     }
 
     fun getCityInfo(location: String) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                _cityInfo.postValue(GeoRetrofitClient.geoClient.getCityInfo(location))
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = locationModel.getCityInfo(location)
+            if (response is RequestResult.Success) {
+                _cityInfo.postValue(response.data)
+            } else {
+                _errorMsg.postValue(response as RequestResult.Error)
             }
+
         }
     }
 }

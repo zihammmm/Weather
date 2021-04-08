@@ -10,9 +10,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,13 +26,33 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.Glide
 import com.zihany.weather.R
-import com.zihany.weather.data.standard.BasicWeatherDetails
 import com.zihany.weather.data.location.LocationData
 import com.zihany.weather.data.standard.*
+import com.zihany.weather.mvvm.viewmodel.WeatherPageViewModel
 import com.zihany.weather.utils.getDefaultDate
 import dev.chrisbanes.accompanist.glide.GlideImage
 import dev.chrisbanes.accompanist.glide.LocalRequestManager
 
+
+@ExperimentalAnimationApi
+@Composable
+fun WeatherScreen(weatherPageViewModel: WeatherPageViewModel) {
+
+    val baseWeather = weatherPageViewModel.baseWeatherLiveData.observeAsState(StandardCurrentWeather())
+    val dailyWeatherList = weatherPageViewModel.allWeatherLiveData.observeAsState(StandardDailyWeatherList())
+    val hourlyWeatherList = weatherPageViewModel.hourlyWeatherLiveData.observeAsState(StandardHourlyWeatherList())
+    val cityInfo = weatherPageViewModel.cityInfo.observeAsState(LocationData())
+
+    Surface(color = MaterialTheme.colors.background) {
+        WeatherBackground(baseWeather.value)
+        WeatherContent(
+            baseWeather.value,
+            dailyWeatherList.value,
+            hourlyWeatherList.value,
+            cityInfo.value
+        )
+    }
+}
 
 @Composable
 fun WeatherBackground(weather: StandardCurrentWeather) {

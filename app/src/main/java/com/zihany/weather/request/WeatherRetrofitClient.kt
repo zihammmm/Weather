@@ -4,6 +4,7 @@ import com.zihany.network.BaseRetrofitClient
 import retrofit2.Retrofit
 
 object WeatherRetrofitClient {
+    const val QWEATHER_CODE_SUCCESS = 200
     private const val qWeatherUrl = "https://devapi.qweather.com/v7/"
     private val baseRetrofitClient = BaseRetrofitClient()
 
